@@ -106,3 +106,15 @@ func (a *BcWsP)HandleOrder(data *OrderBookData) {
 	a.BuyPriceOrderBook,a.BuyQtyOrderBook,a.BuyCount = Sort(false,a.BuyPriceOrderBook,a.BuyQtyOrderBook,a.BuyCount)
 	a.SellPriceOrderBook,a.SellQtyOrderBook,a.SellCount = Sort(true,a.SellPriceOrderBook,a.SellQtyOrderBook,a.SellCount)
 }
+
+func (a *BcWsP)HandlePriceReq(){
+	tmp := PriceStruct{
+		buy:        a.BuyPriceOrderBook,
+		buyAmount:  a.BuyQtyOrderBook,
+		buyCount:   a.BuyCount,
+		sell:       a.SellPriceOrderBook,
+		sellAmount: a.SellQtyOrderBook,
+		sellCount:  a.SellCount,
+	}
+	a.Channel3 <- tmp
+}

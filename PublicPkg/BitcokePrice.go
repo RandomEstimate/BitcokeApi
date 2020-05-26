@@ -19,6 +19,7 @@ var (
 
 type BcWsP struct {
 	Symbol    string
+	LiveBool  bool
 	Conn      *websocket.Conn
 	OrderChan chan *OrderBookData
 
@@ -34,7 +35,11 @@ type BcWsP struct {
 	Channel2 chan int
 	Channel3 chan PriceStruct
 }
-
+func NewPublic(Symbol string) (BcWsP ,error){
+	return BcWsP{
+		LiveBool: false,
+	},nil
+}
 func (a *BcWsP) Work() {
 	a.BuyPriceOrderBook = make([]float64, 0, 50)
 	a.BuyQtyOrderBook = make([]float64, 0, 50)
@@ -59,23 +64,18 @@ func (a *BcWsP) Deal() {
 		select {
 		case data := <-a.OrderChan:
 			a.HandleOrder(data)
-		case <-a.Channel2:
-			tmp := PriceStruct{
-				buy:        a.BuyPriceOrderBook,
-				buyAmount:  a.BuyQtyOrderBook,
-				buyCount:   a.BuyCount,
-				sell:       a.SellPriceOrderBook,
-				sellAmount: a.SellQtyOrderBook,
-				sellCount:  a.SellCount,
+
+			// 防止出现重启时访问接口导致数组越界
+			if a.LiveBool == false {
+				a.LiveBool = true
 			}
-			a.Channel3 <- tmp
+
+		case <-a.Channel2:
+			a.HandlePriceReq()
 		}
 	}
 }
 
-func NewPublic() BcWsP {
-	return BcWsP{}
-}
 func (a *BcWsP) LoadMessage(message string) interface{} {
 	orderData := OrderBookData{}
 	err := json.Unmarshal([]byte(message), &orderData)
@@ -94,7 +94,6 @@ func (a *BcWsP) LogIn() error {
 	sendMessage := "{\"priority\":\"NORMAL\",\"_csclass\":\"org.cyanspring.event.RemoteSubscribeEvent\",\"clazz\":\"org.cyanspring.exbusiness.event.marketdata.DepthUpdateEvent\",\"subKey\":\"" + a.Symbol + "\"}"
 	sendMessage2 := "{\"priority\":\"HIGH\",\"_csclass\":\"org.cyanspring.exbusiness.event.marketdata.DepthRequestEvent\",\"key\":\"" + a.Symbol + "\",\"txId\":\"TX20200413-213011-836-5\"}"
 	sendMessage3 := "{\"priority\":\"NORMAL\",\"_csclass\":\"org.cyanspring.event.RemoteSubscribeEvent\",\"clazz\":\"org.cyanspring.exbusiness.event.marketdata.DepthFullUpdateEvent\",\"subKey\":\"" + a.Symbol + "\"}"
-	//sendMessage2 := "{\"priority\":\"NORMAL\",\"_csclass\":\"org.cyanspring.event.RemoteSubscribeEvent\",\"clazz\":\"org.cyanspring.exbusiness.event.marketdata.DepthUpdateEvent\",\"subKey\":\"XBTCUSD\"}"
 
 	if err := a.Conn.WriteMessage(websocket.TextMessage, []byte(sendMessage)); err != nil {
 		log.Println("send ERR")
@@ -115,6 +114,7 @@ func (a *BcWsP) LogIn() error {
 func (a *BcWsP) ConnAndReceive() {
 	defer func() {
 		if err := recover(); err != nil {
+			a.LiveBoll = false
 			log.Println("行情数据接口重启 err :" + fmt.Sprint(err))
 			err = a.Conn.Close()
 			if err != nil {
