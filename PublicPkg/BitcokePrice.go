@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	WsUrl = "wss://www.ghcyd.top/prod1/market/"
+	WsUrl = "wss://www.nanotradetech.com/prod1/market/"
 )
 
 var (
@@ -35,11 +35,14 @@ type BcWsP struct {
 	Channel2 chan int
 	Channel3 chan PriceStruct
 }
-func NewPublic(Symbol string) (BcWsP ,error){
+
+func NewPublic(Symbol string) (BcWsP, error) {
 	return BcWsP{
+		Symbol:   Symbol,
 		LiveBool: false,
-	},nil
+	}, nil
 }
+
 func (a *BcWsP) Work() {
 	a.BuyPriceOrderBook = make([]float64, 0, 50)
 	a.BuyQtyOrderBook = make([]float64, 0, 50)
@@ -114,7 +117,7 @@ func (a *BcWsP) LogIn() error {
 func (a *BcWsP) ConnAndReceive() {
 	defer func() {
 		if err := recover(); err != nil {
-			a.LiveBoll = false
+			a.LiveBool = false
 			log.Println("行情数据接口重启 err :" + fmt.Sprint(err))
 			err = a.Conn.Close()
 			if err != nil {

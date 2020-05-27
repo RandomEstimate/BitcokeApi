@@ -11,6 +11,7 @@ func (a *BcWsP) GetPriceMap() (DepthMap, error) {
 		a.Channel2 <- 1
 		select {
 		case dataMap := <-a.Channel3:
+			//fmt.Println("dataMap",dataMap)
 			tmp := DepthMap{
 				Bid1:       dataMap.buy[0],
 				Bid1Amount: dataMap.buyAmount[0],

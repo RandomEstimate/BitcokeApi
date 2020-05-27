@@ -11,7 +11,7 @@ import (
 
 const (
 	//此线路为Bitcoke的国际线路，可以通过ping的延时进行选择
-	WsUrl string = "wss://www.ghcyd.top/prod1/trade/"
+	WsUrl string = "wss://www.nanotradetech.com/prod1/trade/"
 )
 
 var (

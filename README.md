@@ -25,10 +25,6 @@ func GetUpdateTime() (time.Time){
     //返回time.Time 
 }
 
-//获取当前开仓的爆仓价格
-func RiskPrice() (float){
-    
-}
 //通过Ws更新当前仓位
 func RepairPosition() (error){
     //返回err
