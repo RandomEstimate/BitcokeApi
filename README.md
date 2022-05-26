@@ -8,18 +8,27 @@ bitcoke交易所对开放api的限制频率，目前这一套api利用web端进�
 
 PublicPkg模块不需要额外的用户信息，PrivatePkg模块需要额外的用户信息。
 
-> **BitcokeApi**
+> BitcokeApi
 >
-> **├── PrivatePkg**
-> **│   ├── BitcokeTrade.go**
-> **│   ├── HandleFunc.go**
-> **│   ├── InterfaceFunc.go**
-> **│   └── SignelStruct.go**
-> **├── PublicPkg**
-> **│   ├── BitcokePrice.go**
-> **│   ├── HandleFunc.go**
-> **│   ├── InterfaceFunc.go**
-> **│   └── SignalStuct.go**
+> ├── PrivatePkg
+>
+> │   ├── BitcokeTrade.go
+>
+> │   ├── HandleFunc.go
+>
+> │   ├── InterfaceFunc.go
+>
+> │   └── SignelStruct.go
+>
+> ├── PublicPkg
+>
+> │   ├── BitcokePrice.go
+>
+> │   ├── HandleFunc.go
+>
+> │   ├── InterfaceFunc.go
+>
+> │   └── SignalStuct.go
 
 ***
 
