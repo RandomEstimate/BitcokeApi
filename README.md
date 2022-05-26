@@ -62,29 +62,30 @@ import (
 )
 
 func main() {
-    
+
 	obj, _ := PublicPkg.NewPublic(nil)
 	w := &sync.WaitGroup{}
 	w.Add(1)
 	go obj.Start(w)
 	w.Wait()
 	err := obj.OrderSymbol("BTC")
-    if err != nil {
-        panic(err)
-    }
-    
+	if err != nil {
+		panic(err)
+	}
+
 	fmt.Println("订阅成功")
-    
-    go func() {
+
+	go func() {
 		for {
 			time.Sleep(time.Second)
-            fmt.Println(obj.GetUpdateTime("BTC"))
+			fmt.Println(obj.GetUpdateTime("BTC"))
 			fmt.Println(obj.GetPriceMap("BTC"))
 		}
 	}()
-    
-    select{}
-    
+
+	select {}
+
 }
+
 ```
 
