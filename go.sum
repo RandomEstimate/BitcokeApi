@@ -1,0 +1,6 @@
+github.com/RandomEstimate/go-log v0.0.0-20220112031034-150dc7b12034 h1:Kclj1+7pi+KweLsUpkm2ysdAV7Tq4aO8iNVBxd3OtJs=
+github.com/RandomEstimate/go-log v0.0.0-20220112031034-150dc7b12034/go.mod h1:5XCqegK/bZGaJDj/XPcwhlPC14Fw+xTTOuV40M4zh5o=
+github.com/RandomEstimate/util_go v0.0.1 h1:6OerpRod9sYU6+snXIFb0fz5p6pfPS7Er3Hd6tZU4S8=
+github.com/RandomEstimate/util_go v0.0.1/go.mod h1:5xnRvJvnHSnTc3/UZhfnaY83alJU7dOi9/jt+6xoPGg=
+github.com/gorilla/websocket v1.5.0 h1:PPwGk2jz7EePpoHN/+ClbZu8SPxiqlu12wZP/3sWmnc=
+github.com/gorilla/websocket v1.5.0/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
